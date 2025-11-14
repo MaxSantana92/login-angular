@@ -10,7 +10,7 @@ This is a modern Angular application that demonstrates a complete user authentic
 - **Reactive Forms**: Robust and scalable forms for handling user input.
 - **Lazy Loading**: Feature routes (`Login`, `Register`) are loaded on demand to improve initial load time.
 - **HttpClient & Interceptors**: Best practices for handling API requests, including adding headers automatically.
-- **DummyJSON API Integration**: Connects to a live API for a real-world login demonstration.
+- **DummyJSON API Integration**: Connects to a live API for a real-world login demonstration. https://dummyjson.com/ user: emilys pass: emilyspass
 
 ## ✅ Prerequisites
 
