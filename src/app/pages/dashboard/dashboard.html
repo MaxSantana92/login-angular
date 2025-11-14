@@ -1,0 +1,83 @@
+<mat-toolbar color="primary">
+  @if (currentUser(); as user) {
+  <span>Welcome, {{ user.firstName }}!</span>
+  } @else {
+  <span>Dashboard</span>
+  }
+  <span class="toolbar-spacer"></span>
+  @if (currentUser()) {
+  <button mat-icon-button (click)="onLogout()" aria-label="Logout button">
+    <mat-icon>logout</mat-icon>
+  </button>
+  }
+</mat-toolbar>
+
+@if (currentUser(); as user) {
+<div class="dashboard-container">
+  <mat-card class="profile-card">
+    <mat-card-header>
+      <img mat-card-avatar [src]="user.image" alt="Avatar of {{ user.firstName }}" />
+      <mat-card-title
+        >{{ user.firstName }} {{ user.maidenName }} {{ user.lastName }}</mat-card-title
+      >
+      <mat-card-subtitle>{{ user.company.title }} at {{ user.company.name }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-divider></mat-divider>
+      <h3 class="section-title">Contact Information</h3>
+      <mat-list role="list">
+        <mat-list-item role="listitem">
+          <mat-icon matListItemIcon>person</mat-icon>
+          <span>{{ user.username }}</span>
+        </mat-list-item>
+        <mat-list-item role="listitem">
+          <mat-icon matListItemIcon>email</mat-icon>
+          <span>{{ user.email }}</span>
+        </mat-list-item>
+        <mat-list-item role="listitem">
+          <mat-icon matListItemIcon>phone</mat-icon>
+          <span>{{ user.phone }}</span>
+        </mat-list-item>
+      </mat-list>
+
+      <mat-divider></mat-divider>
+      <h3 class="section-title">Personal Details</h3>
+      <mat-list role="list">
+        <mat-list-item role="listitem">
+          <mat-icon matListItemIcon>cake</mat-icon>
+          <span>{{ user.birthDate }} (Age: {{ user.age }})</span>
+        </mat-list-item>
+        <mat-list-item role="listitem">
+          <mat-icon matListItemIcon>opacity</mat-icon>
+          <span>Blood Group: {{ user.bloodGroup }}</span>
+        </mat-list-item>
+        <mat-list-item role="listitem">
+          <mat-icon matListItemIcon>height</mat-icon>
+          <span>Height: {{ user.height }}cm | Weight: {{ user.weight }}kg</span>
+        </mat-list-item>
+      </mat-list>
+
+      <mat-divider></mat-divider>
+      <h3 class="section-title">Address & University</h3>
+      <mat-list role="list">
+        <mat-list-item role="listitem">
+          <mat-icon matListItemIcon>home</mat-icon>
+          <span
+            >{{ user.address.address }}, {{ user.address.city }}, {{ user.address.state }}
+            {{ user.address.postalCode }}</span
+          >
+        </mat-list-item>
+        <mat-list-item role="listitem">
+          <mat-icon matListItemIcon>school</mat-icon>
+          <span>{{ user.university }}</span>
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+</div>
+} @else {
+<div class="loading-container">
+  <mat-spinner></mat-spinner>
+  <p>Loading user data...</p>
+</div>
+}

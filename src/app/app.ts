@@ -1,12 +1,11 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [RouterOutlet, MatSnackBarModule],
   templateUrl: './app.html',
-  styleUrl: './app.css'
 })
-export class App {
-  protected readonly title = signal('login-angular');
-}
+export class App {}

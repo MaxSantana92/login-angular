@@ -1,5 +1,9 @@
 {
   "name": "login-angular",
+  "author": "Max Santana",
+  "license": "MIT",
+  "description": "A modern Angular application that demonstrates a complete user authentication flow, including a home page, a login form, and a registration page placeholder. The project is built with the latest Angular features and best practices.",
+  "repository": "https://github.com/maxsantana/login-angular",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -23,10 +27,12 @@
   },
   "private": true,
   "dependencies": {
+    "@angular/cdk": "~20.2.13",
     "@angular/common": "^20.3.0",
     "@angular/compiler": "^20.3.0",
     "@angular/core": "^20.3.0",
     "@angular/forms": "^20.3.0",
+    "@angular/material": "~20.2.13",
     "@angular/platform-browser": "^20.3.0",
     "@angular/platform-server": "^20.3.0",
     "@angular/router": "^20.3.0",
