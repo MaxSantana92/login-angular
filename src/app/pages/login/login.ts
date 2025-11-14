@@ -42,13 +42,19 @@ export class LoginComponent {
         .login({ username: username!, password: password! })
         .pipe(finalize(() => this.isLoading.set(false)))
         .subscribe({
-          next: (response) => {
-            console.log('Login successful', response);
-            // Here you would typically save the token and navigate
-            // For now, let's just log it.
+          next: (success) => {
+            if (success) {
+              console.log('Login successful');
+              this.router.navigate(['/dashboard']);
+            } else {
+              console.error('Login failed: Invalid credentials');
+              // Here you would show an error to the user
+            }
           },
           error: (err) => {
-            console.error('Login failed', err);
+            // This will now likely only catch network errors,
+            // as auth errors are handled by the service and returned as `false`
+            console.error('An unexpected error occurred', err);
           },
         });
     }
