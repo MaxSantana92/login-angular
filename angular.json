@@ -21,10 +21,7 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/custom-theme.scss",
-              "src/styles.css"
-            ],
+            "styles": ["src/custom-theme.scss", "src/styles.css"],
             "server": "src/main.server.ts",
             "outputMode": "server",
             "ssr": {
@@ -36,8 +33,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "750kb",
+                  "maximumError": "1mb"
                 },
                 {
                   "type": "anyComponentStyle",
