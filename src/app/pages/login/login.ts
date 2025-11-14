@@ -44,7 +44,6 @@ export class LoginComponent {
         .subscribe({
           next: (success) => {
             if (success) {
-              console.log('Login successful');
               this.router.navigate(['/dashboard']);
             } else {
               console.error('Login failed: Invalid credentials');
