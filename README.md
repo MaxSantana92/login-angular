@@ -1,59 +1,65 @@
 # LoginAngular
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.10.
+This is a modern Angular application that demonstrates a complete user authentication flow, including a home page, a login form, and a registration page placeholder. The project is built with the latest Angular features and best practices.
 
-## Development server
+## ✨ Key Features
 
-To start a local development server, run:
+- **Angular 20**: Built with the latest version of the Angular framework.
+- **Standalone Components**: Modern, module-less architecture for better performance and developer experience.
+- **Angular Material**: High-quality UI components for a clean and modern design.
+- **Reactive Forms**: Robust and scalable forms for handling user input.
+- **Lazy Loading**: Feature routes (`Login`, `Register`) are loaded on demand to improve initial load time.
+- **HttpClient & Interceptors**: Best practices for handling API requests, including adding headers automatically.
+- **DummyJSON API Integration**: Connects to a live API for a real-world login demonstration.
 
-```bash
-ng serve
-```
+## ✅ Prerequisites
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Before you begin, ensure you have the following installed on your system:
 
-## Code scaffolding
+- **Node.js**: `^20.14.0` or `^22.0.0`
+- **Angular CLI**: Version `20.3.10` or higher
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 🚀 Getting Started
 
-```bash
-ng generate component component-name
-```
+Follow these steps to get the project up and running on your local machine.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### 1. Installation
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+Clone the repository and install the dependencies using npm:
 
 ```bash
-ng build
+npm install
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### 2. Development Server
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Run the development server. The app will automatically reload if you change any of the source files.
 
 ```bash
-ng test
+npm start
 ```
 
-## Running end-to-end tests
+Navigate to `http://localhost:4200/`.
 
-For end-to-end (e2e) testing, run:
+## 📂 Folder Structure
 
-```bash
-ng e2e
+The project follows a feature-based folder structure to keep the code organized and maintainable:
+
+```
+src/app/
+├── pages/          # Contains the main pages (Home, Login, Register)
+├── services/       # For services like AuthService that handle business logic
+├── interceptors/   # For HTTP interceptors
+├── app.config.ts   # Main application configuration
+└── app.routes.ts   # Main application routes
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## 🛠️ Available Scripts
 
-## Additional Resources
+- `npm start`: Runs the app in development mode.
+- `npm run build`: Builds the app for production to the `dist/` folder.
+- `npm run test`: Runs the unit tests via Karma.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 📚 Further Help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
