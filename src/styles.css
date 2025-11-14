@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
 
 html,
 body {
@@ -7,4 +8,10 @@ body {
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.error-snackbar {
+  --mdc-snackbar-container-color: #f44336; /* Color de fondo rojo de Material */
+  --mat-mdc-snack-bar-button-color: #ffffff; /* Color del botón de cierre */
+  --mdc-snackbar-supporting-text-color: #ffffff; /* Color del texto del mensaje */
 }
