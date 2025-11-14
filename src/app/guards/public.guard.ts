@@ -13,9 +13,9 @@ export const publicGuard: CanActivateFn = () => {
   }
 
   // Si no hay usuario, pero sí hay un token, intenta verificarlo.
-  if (authService.getToken()) {
+  if (authService.getAccessToken()) {
     return authService.checkAuthStatus().pipe(
-      map(isAuthenticated => {
+      map((isAuthenticated) => {
         // Si el token era válido (usuario cargado), redirige al dashboard.
         if (isAuthenticated) {
           return router.createUrlTree(['/dashboard']);

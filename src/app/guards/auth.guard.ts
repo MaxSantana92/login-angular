@@ -8,14 +8,13 @@ export const authGuard: CanActivateFn = () => {
   const router = inject(Router);
 
   // Si el usuario ya está cargado en la señal, permite el acceso inmediato.
-  console.log('isAuthenticated', authService.isAuthenticated());
   if (authService.isAuthenticated()) {
     return true;
   }
 
   // Si no hay usuario, pero sí hay un token, significa que acabamos de iniciar sesión
   // o estamos recargando la página. Debemos verificar el token y cargar el usuario.
-  if (authService.getToken()) {
+  if (authService.getAccessToken()) {
     return authService.checkAuthStatus().pipe(
       map((isAuthenticated) => {
         if (isAuthenticated) {

@@ -5,6 +5,11 @@ import { tap, catchError, map, Observable, of, delay } from 'rxjs';
 import { User } from '../interfaces/user.interface';
 import { NotificationService } from './notification.service';
 
+interface AuthResponse {
+  accessToken: string;
+  refreshToken: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -12,26 +17,21 @@ export class AuthService {
   private http = inject(HttpClient);
   private platformId = inject(PLATFORM_ID);
   private notificationService = inject(NotificationService);
-  private loginUrl = 'https://dummyjson.com/auth/login';
-  private profileUrl = 'https://dummyjson.com/auth/me';
-  private tokenKey = 'auth_token';
+  private baseUrl = 'https://dummyjson.com/auth';
+  private accessTokenKey = 'auth_access_token';
+  private refreshTokenKey = 'auth_refresh_token';
 
-  // 1. Estado Reactivo: Fuente de verdad del usuario
   currentUser = signal<User | null>(null);
-
-  // Signal computada para saber fácilmente si está logueado
   isAuthenticated = computed(() => !!this.currentUser());
 
-  constructor() {
-    // La lógica de inicialización se moverá a un APP_INITIALIZER
-  }
-
-  // --- LOGIN ---
   login(credentials: { username: string; password: string }): Observable<boolean> {
-    return this.http.post<any>(this.loginUrl, credentials).pipe(
-      delay(3000),
+    const body = {
+      ...credentials,
+      expiresInMins: 1, // Token expira en 1 minuto para probar el refresh
+    };
+    return this.http.post<AuthResponse>(`${this.baseUrl}/login`, body).pipe(
       tap((response) => {
-        this.saveToken(response.accessToken);
+        this.saveTokens(response);
       }),
       map(() => true),
       catchError((err: HttpErrorResponse) => {
@@ -43,16 +43,20 @@ export class AuthService {
     );
   }
 
-  // --- CHECK STATUS (Para F5 / Recargas) ---
+  refreshToken(): Observable<AuthResponse> {
+    const refreshToken = this.getRefreshToken();
+    return this.http.post<AuthResponse>(`${this.baseUrl}/refresh`, { refreshToken });
+  }
+
   checkAuthStatus(): Observable<boolean> {
-    const token = this.getToken();
+    const token = this.getAccessToken();
+
     if (!token) {
       this.logout();
       return of(false);
     }
 
-    // Hacemos una petición para validar el token y traer datos frescos
-    return this.http.get<User>(this.profileUrl).pipe(
+    return this.http.get<User>(`${this.baseUrl}/me`).pipe(
       tap((user) => {
         if (user) {
           this.currentUser.set(user);
@@ -66,25 +70,32 @@ export class AuthService {
     );
   }
 
-  // --- LOGOUT ---
   logout() {
     this.currentUser.set(null);
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem(this.tokenKey);
+      localStorage.removeItem(this.accessTokenKey);
+      localStorage.removeItem(this.refreshTokenKey);
     }
   }
 
-  // --- UTILIDADES TOKEN (PLATFORM-AWARE) ---
-  getToken(): string | null {
+  getAccessToken(): string | null {
     if (isPlatformBrowser(this.platformId)) {
-      return localStorage.getItem(this.tokenKey);
+      return localStorage.getItem(this.accessTokenKey);
     }
     return null;
   }
 
-  private saveToken(token: string) {
+  getRefreshToken(): string | null {
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem(this.tokenKey, token);
+      return localStorage.getItem(this.refreshTokenKey);
+    }
+    return null;
+  }
+
+  saveTokens(tokens: AuthResponse) {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem(this.accessTokenKey, tokens.accessToken);
+      localStorage.setItem(this.refreshTokenKey, tokens.refreshToken);
     }
   }
 }
