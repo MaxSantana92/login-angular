@@ -24,9 +24,9 @@
             mat-raised-button
             color="primary"
             type="submit"
-            [disabled]="loginForm.invalid || isLoading()"
+            [disabled]="loginForm.invalid || $isLoading()"
           >
-            @if (isLoading()) {
+            @if ($isLoading()) {
             <mat-spinner diameter="24"></mat-spinner>
             } @else {
             <span>Login</span>

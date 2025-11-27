@@ -12,7 +12,12 @@
   }
 </mat-toolbar>
 
-@if (currentUser(); as user) {
+@switch (state()) { @case ('loading') {
+<div class="loading-container">
+  <mat-spinner></mat-spinner>
+  <p>Loading user data...</p>
+</div>
+} @case ('loaded') { @if (currentUser(); as user) {
 <div class="dashboard-container">
   <mat-card class="profile-card">
     <mat-card-header>
@@ -75,9 +80,9 @@
     </mat-card-content>
   </mat-card>
 </div>
-} @else {
+} } @case ('error') {
 <div class="loading-container">
   <mat-spinner></mat-spinner>
-  <p>Loading user data...</p>
+  <p>Retrying to load user data...</p>
 </div>
-}
+} }
