@@ -1,7 +1,7 @@
 import { Injectable, signal, inject, computed, PLATFORM_ID } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
-import { tap, catchError, map, Observable, of, delay } from 'rxjs';
+import { tap, catchError, map, Observable, of, switchMap } from 'rxjs';
 import { User } from '../interfaces/user.interface';
 import { NotificationService } from './notification.service';
 
@@ -31,8 +31,10 @@ export class AuthService {
     };
     return this.http.post<AuthResponse>(`${this.baseUrl}/login`, body).pipe(
       tap((response) => {
+        console.log('Login successful, tokens saved. Access token:', response.accessToken);
         this.saveTokens(response);
       }),
+      switchMap(() => this.loadUserProfile()),
       map(() => true),
       catchError((err: HttpErrorResponse) => {
         const errorMessage = err.error?.message || 'An unknown error occurred';
@@ -50,22 +52,29 @@ export class AuthService {
 
   checkAuthStatus(): Observable<boolean> {
     const token = this.getAccessToken();
-
     if (!token) {
       this.logout();
       return of(false);
     }
 
+    return this.loadUserProfile().pipe(
+      map(() => true),
+      catchError(() => {
+        return of(false);
+      })
+    );
+  }
+
+  loadUserProfile(): Observable<User> {
     return this.http.get<User>(`${this.baseUrl}/me`).pipe(
       tap((user) => {
         if (user) {
           this.currentUser.set(user);
         }
       }),
-      map(() => true),
-      catchError(() => {
-        this.logout();
-        return of(false);
+      catchError((error) => {
+        this.notificationService.showError('Your session has expired. Please log in again.');
+        throw error;
       })
     );
   }

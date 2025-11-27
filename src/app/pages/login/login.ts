@@ -27,7 +27,7 @@ import { finalize } from 'rxjs';
 export class LoginComponent {
   authService = inject(AuthService);
   router = inject(Router);
-  isLoading = signal(false);
+  $isLoading = signal(false);
 
   loginForm = new FormGroup({
     username: new FormControl('', [Validators.required]),
@@ -36,11 +36,11 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      this.isLoading.set(true);
+      this.$isLoading.set(true);
       const { username, password } = this.loginForm.value;
       this.authService
         .login({ username: username!, password: password! })
-        .pipe(finalize(() => this.isLoading.set(false)))
+        .pipe(finalize(() => this.$isLoading.set(false)))
         .subscribe({
           next: (success) => {
             if (success) {
